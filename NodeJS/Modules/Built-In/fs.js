@@ -82,8 +82,13 @@ let fs = require("node:fs");
 //? method name ==> rmdirSync()
 //? format ==> rmdirSyn("path")
 
-// fs.rmdirSync("./nested");
-// console.log("folder deleted");
+try {
+  fs.rmdirSync("./nested");
+  console.log("folder deleted");
+} catch (error) {
+  console.log("error while deleting a folder");
+  console.log(error);
+}
 
 // fs.rmdirSync("./backend", { recursive: true });
 
@@ -101,7 +106,112 @@ let fs = require("node:fs");
 //? method name ==> renameSync()
 //? format ==> renameSync("old-folder/file-name", "new-folder/file-name")
 
-fs.renameSync("./index.txt", "../data.js");
+// fs.renameSync("./index.txt", "../data.js");
 // fs.renameSync("./python", "./java");
 
 // https://github.com/utk-281/node_1200
+
+//! ===================================asynchronous execution========
+//! using callbacks ===================
+
+//!1) creating a file asynchronously
+//? method name ==> writeFile()
+//? format ==> writeFile("path/filename", "data to be inserted", cb)
+
+//? call stack ==> main thread
+// console.log("Start");
+
+//! callback first error ==> we pass the first argument as error, to handle it
+// fs.writeFile("./demo.txt", "\n this is second line", (err) => {
+//   if (err) console.log(err);
+//   console.log("file created");
+// }); //! this is not executed by main thread //todo-->
+
+// console.log("middle");
+// console.log("end");
+
+//! if the file is already present then it will over-write the data, otherwise a new file will be created
+
+//! 2) reading a file
+//? method name ==> readFile()
+//? format ==> readFile("path", "encoding", cb)
+
+// console.log("Start");
+
+// fs.readFile("./demo1.txt", "utf-8", (err, data) => {
+//   if (err) console.log("err from callback: " + err);
+//   console.log("file read");
+//   console.log(data);
+// });
+
+// console.log("middle");
+// console.log("end");
+
+//! copy the contents of "fs.js" to "data.txt"
+// fs.readFile("./fs.js", "utf-8", (err, data) => {
+//   if (err) console.log(err);
+//   fs.writeFile("./data.txt", data, (err) => {
+//     if (err) console.log(err);
+//     console.log("file created");
+//   });
+// });
+
+//!3) updating/appending a file
+//? method name ==> appendFile()
+//? format ==> appendFile("path", "new data", cb)
+
+// fs.appendFile("./demo.txt", `\n\t"second" line`, (err) => {
+//   if (err) console.log(err);
+//   console.log("file updated");
+// });
+
+// string literals ==> ``
+
+//!4) deleting a file
+//? method name ==> unlink()
+//? format ==> unlink("path", cb)
+
+// fs.unlink("./demo.txt", (err) => {
+//   if (err) console.log(err);
+//   console.log("file deleted");
+// });
+
+//!5) creating a folder
+// fs.mkdir("/folder1", (err) => {
+//   if (err) console.log(err);
+//   console.log("folder created");
+// });
+
+//!6) removing a folder
+// fs.rmdir("./folder1", (err) => {
+//   if (err) console.log(err);
+//   console.log("folder deleted");
+// });
+
+//! Node/backend/routes/userRoutes.js --> callback hell/pyramid of doom
+//! Node/backend/routes/userRoutes.js --> callback hell/pyramid of doom (delete)
+
+// fs.mkdir("./Node", (err) => {
+//   if (err) console.log(err);
+//   console.log("Node folder created");
+//   fs.mkdir("./Node/backend", (err) => {
+//     if (err) console.log(err);
+//     console.log("backend folder created");
+//     fs.mkdir("./Node/backend/routes", (err) => {
+//       if (err) console.log(err);
+//       console.log("]routes folder created");
+//       fs.writeFile("./Node/backend/routes/userRoutes.js", "data", (err) => {
+//         if (err) console.log(err);
+//         console.log("file created");
+//       });
+//     });
+//   });
+// });
+
+//!7) renaming a file/folder
+//? method name ==> rename()
+//? format==> rename("old-folder/file-name", "new-folder/file-name", cb)
+// fs.rename("./Demo", "./UpdatedDemo", (err) => {
+//   if (err) console.log(err);
+//   console.log("folder renamed");
+// });
