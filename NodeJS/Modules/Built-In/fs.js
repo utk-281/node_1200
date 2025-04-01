@@ -1,5 +1,5 @@
 // let fs = require("fs");
-let fs = require("node:fs");
+// let fs = require("node:fs");
 // console.log(fs);
 
 //! ==================== blocking or synchronous execution================
@@ -82,13 +82,13 @@ let fs = require("node:fs");
 //? method name ==> rmdirSync()
 //? format ==> rmdirSyn("path")
 
-try {
-  fs.rmdirSync("./nested");
-  console.log("folder deleted");
-} catch (error) {
-  console.log("error while deleting a folder");
-  console.log(error);
-}
+// try {
+//   fs.rmdirSync("./nested");
+//   console.log("folder deleted");
+// } catch (error) {
+//   console.log("error while deleting a folder");
+//   console.log(error);
+// }
 
 // fs.rmdirSync("./backend", { recursive: true });
 
@@ -215,3 +215,144 @@ try {
 //   if (err) console.log(err);
 //   console.log("folder renamed");
 // });
+
+//! ========================== using then/catch==============
+// let fs = require("fs/promises");
+let fs = require("fs").promises;
+//? operations performed using fs will return a promise
+
+//! 1) creating a file
+//? method name ==> writeFile()
+//? format ==> writeFile().then().catch()
+
+// console.log("start");
+// let output = fs.writeFile("./data.txt", "data1");
+
+// output
+//   .then(() => {
+//     console.log("file created");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+// console.log("middle");
+// console.log("end");
+
+//! 2) reading  file
+
+// let output = fs.readFile("./data.txt", "utf-8");
+// // console.log(output);
+
+// output
+//   .then((data) => {
+//     console.log("file read");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+//! 3) updating/appending a file
+
+// let output = fs.appendFile("./data.txt", "\n this is second statement");
+
+// output
+//   .then(() => {
+//     console.log("file updated");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+//! copy the contents of "fs.js" into a new file "demo.txt"
+
+// let readFile = fs.readFile("./fs.js", "utf-8");
+// readFile
+//   .then((data) => {
+//     let writeFile = fs.writeFile("./demo.txt", data);
+//     writeFile
+//       .then(() => {
+//         console.log("file copied");
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+//! 4) deleting a file
+//? unlink()
+
+// let output = fs.unlink("./demo.txt");
+// output
+//   .then(() => {
+//     console.log("file deleted");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+//! 5) creating a folder
+//? method name ==< mkdir()
+
+// let output = fs.mkdir("./backend");
+// output
+//   .then(() => {
+//     console.log("folder created");
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+//!6) deleting a folder
+
+//! 7) rename a folder
+
+//! node/backend/routes/userRoutes.js
+
+// let node = fs.mkdir("./node");
+// node
+//   .then(() => {
+//     console.log("node folder created");
+
+//     let backend = fs.mkdir("./node/backend");
+//     backend
+//       .then(() => {
+//         console.log("backend folder created");
+
+//         let routes = fs.mkdir("./node/backend/routes");
+//         routes.then(() => {
+//           console.log("routes folder created");
+
+//           let userRoutes = fs.writeFile("../node/backend/routes/userRoutes.js", "let a =20");
+//         });
+//         userRoutes
+//           .then(() => {
+//             console.log("file created");
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           })
+//           .catch((err) => {
+//             console.log(err);
+//           });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+async function createStr() {
+  let node = await fs.mkdir("./node");
+  let backend = await fs.mkdir("./node/backend");
+  let routes = await fs.mkdir("./node/backend/routes");
+  let file = await fs.writeFile("./node/backend/routes/routes.js", "data");
+}
+
+createStr();
