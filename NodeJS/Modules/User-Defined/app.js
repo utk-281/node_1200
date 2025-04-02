@@ -1,12 +1,12 @@
-// function greet() {
-//   console.log("hello");
-// }
+function greet() {
+  console.log("hello");
+}
 
-// let arr = ["String", false, 124];
+let arr = ["String", false, 124];
 
-// let object = {
-//   name: "abc",
-// };
+let object = {
+  name: "abc",
+};
 
 // let str = "something";
 
