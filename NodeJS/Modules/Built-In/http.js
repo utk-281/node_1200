@@ -16,26 +16,74 @@
 //? 5XX ==> Server error (500: internal server error)
 
 let http = require("http");
+let fs = require("fs");
 // console.log(http);
 //! steps to create a server
 //? 1) import http module
-//? 2) use createServer() to create a server
+//? 2) use createServer() (which accepts a callback function) to create a server
 //? 3) assign a port number to the server
 
-let server = http.createServer((req, res) => {
-  //   res.end("Hello from server");
-  //? to display anything on the output --> write()
-  //   res.write("this is a message from write()");
-  //   res.write("this is after cycle is ended");
-  //   res.end(); // this will terminate the current request-response cycle
-  //   res.write("this is after cycle is ended"); // this will throw an error
-});
+// let server = http.createServer((req, res) => {
+//   res.end("Hello from server");
+//? to display anything on the output --> write()
+//   res.write("this is a message from write()");
+//   res.write("this is after cycle is ended");
+//   res.end(); // this will terminate the current request-response cycle
+//   res.write("this is after cycle is ended"); // this will throw an error
+// res.end("this is from end(), after displaying the message it will end the cycle");
+// res.write("hello");
+// res.end();
+// console.log(req.url);
+// console.log(req.method);
+// console.log(req.query);
+// console.log(req.host);
+// console.log(res);
+// res.writeHead(statusCode, "statusMessage", {"content-type":"value"}) --> headers set (res)
+// res.setHeader("mynName", "utk"); //? for sending custom headers
+// res.writeHead(202, "ok", { "Content-type": "text/plain" });
+// res.end("hello");
+//? content-type for html --> text/html
+//? content-type for css --> text/css
+//? content-type for json --> application/json
+// });
 
-server.listen(9001, (err) => {
-  if (err) console.log("error from callback first error" + err);
-  console.log("server running at port 9001");
-});
+// server.listen(9001, (err) => {
+//   if (err) console.log("error from callback first error" + err);
+//   console.log("server running at port 9001");
+// });
 
 //! to tap into the server, open browser and type localhost:portNumber
 //! to kill the server click on terminal and press ctrl + c
 //! after every modifications we have to restart the server
+
+//! create a server and display a html page on the UI
+// create a html file
+// create a server
+// read the contents of html file
+// send the contents of html as response
+
+let server = http.createServer((req, res) => {
+  //! ==============sending html file====================
+  // res.writeHead(200, "ok", { "Content-type": "text/plain" }); // --> this will display the message as string format
+  // res.writeHead(200, "ok", { "Content-type": "text/html" }); // --> this will the message as html file
+  // let contents = fs.readFileSync("./Pages/index.html", "utf-8");
+  // res.end(contents);
+
+  //! ==============sending css file====================
+  res.writeHead(200, "ok", { "Content-type": "text/css" });
+  fs.readFile("./Pages/styles.css", "utf-8", (err, data) => {
+    if (err) console.log(err);
+    res.end(data);
+  });
+  //! ==============sending json file====================
+  res.writeHead(200, "ok", { "Content-type": "application/json" });
+  fs.readFile("./Pages/data.json", "utf-8", (err, data) => {
+    if (err) console.log(err);
+    res.end(data);
+  });
+});
+
+server.listen(9000, (err) => {
+  if (err) console.log(err);
+  console.log("server running at port 9000");
+});
