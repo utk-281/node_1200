@@ -62,28 +62,67 @@ let fs = require("fs");
 // read the contents of html file
 // send the contents of html as response
 
-let server = http.createServer((req, res) => {
-  //! ==============sending html file====================
-  // res.writeHead(200, "ok", { "Content-type": "text/plain" }); // --> this will display the message as string format
-  // res.writeHead(200, "ok", { "Content-type": "text/html" }); // --> this will the message as html file
-  // let contents = fs.readFileSync("./Pages/index.html", "utf-8");
-  // res.end(contents);
+// let server = http.createServer((req, res) => {
+//   //! ==============sending html file====================
+//   // res.writeHead(200, "ok", { "Content-type": "text/plain" }); // --> this will display the message as string format
+//   // res.writeHead(200, "ok", { "Content-type": "text/html" }); // --> this will the message as html file
+//   // let contents = fs.readFileSync("./Pages/index.html", "utf-8");
+//   // res.end(contents);
 
-  //! ==============sending css file====================
-  res.writeHead(200, "ok", { "Content-type": "text/css" });
-  fs.readFile("./Pages/styles.css", "utf-8", (err, data) => {
-    if (err) console.log(err);
-    res.end(data);
-  });
-  //! ==============sending json file====================
-  res.writeHead(200, "ok", { "Content-type": "application/json" });
-  fs.readFile("./Pages/data.json", "utf-8", (err, data) => {
-    if (err) console.log(err);
-    res.end(data);
-  });
-});
+//   //! ==============sending css file====================
+//   res.writeHead(200, "ok", { "Content-type": "text/css" });
+//   fs.readFile("./Pages/styles.css", "utf-8", (err, data) => {
+//     if (err) console.log(err);
+//     res.end(data);
+//   });
+//   //! ==============sending json file====================
+//   res.writeHead(200, "ok", { "Content-type": "application/json" });
+//   fs.readFile("./Pages/data.json", "utf-8", (err, data) => {
+//     if (err) console.log(err);
+//     res.end(data);
+//   });
+// });
 
-server.listen(9000, (err) => {
-  if (err) console.log(err);
-  console.log("server running at port 9000");
+// server.listen(9000, (err) => {
+//   if (err) console.log(err);
+//   console.log("server running at port 9000");
+// });
+
+// http
+//   .createServer((req, res) => {
+//     //! sending html file using streams
+//     // res.writeHead(200, "ok", { "Content-type": "text/html" });
+//     // let data = fs.createReadStream("./index.html", "utf-8");
+//     // // source ==> data
+//     // // destination ==> res
+//     // data.pipe(res);
+
+//     //!sending css file using streams
+//     res.writeHead(200, "ok", { "Content-type": "text/css" });
+//     fs.createReadStream("./styles.css", "utf-8").pipe(res);
+//   })
+//   .listen(9000, (err) => {
+//     if (err) console.log(err);
+//     console.log("server running");
+//   });
+
+//! write a function that executes fs.readFileSync async
+// hint ==> use async await
+
+async function readFile() {
+  let data = fs.readFileSync("./index.html", "utf-8");
+  return data;
+}
+
+let op = readFile();
+console.log(op);
+
+console.log("start");
+console.log("middle");
+
+op.then((data) => {
+  console.log(data);
+}).catch((err) => {
+  console.log(err);
 });
+console.log("end");
