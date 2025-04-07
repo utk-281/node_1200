@@ -15,13 +15,13 @@
 //? 4XX ==> Client error (400: bad req, 401: unauthorized)
 //? 5XX ==> Server error (500: internal server error)
 
-let http = require("http");
-let fs = require("fs");
+// let http = require("http");
+// let fs = require("fs");
 // console.log(http);
 //! steps to create a server
 //? 1) import http module
 //? 2) use createServer() (which accepts a callback function) to create a server
-//? 3) assign a port number to the server
+//? 3) assign a port number to the server (listen(PORT_NUMBER, CALLBACK_FUNCTION))
 
 // let server = http.createServer((req, res) => {
 //   res.end("Hello from server");
@@ -45,6 +45,7 @@ let fs = require("fs");
 //? content-type for html --> text/html
 //? content-type for css --> text/css
 //? content-type for json --> application/json
+//? content-type for js --> application/js
 // });
 
 // server.listen(9001, (err) => {
@@ -106,23 +107,46 @@ let fs = require("fs");
 //     console.log("server running");
 //   });
 
-//! write a function that executes fs.readFileSync async
-// hint ==> use async await
+//! ============= Routing ============================
 
-async function readFile() {
-  let data = fs.readFileSync("./index.html", "utf-8");
-  return data;
-}
+let http = require("http");
+let fs = require("fs");
+http
+  .createServer((req, res) => {
+    // console.log(req.url);
+    // res.end(req.url);
+    //! html page
+    if (req.url === "/html") {
+      // res.end("this is html page");
+      res.writeHead(200, "ok", { "content-type": "text/html" });
+      fs.createReadStream("./Pages/index.html", "utf-8").pipe(res);
+    }
+    //! css page
+    else if (req.url === "/css") {
+      // res.end("this is css page");
+      res.writeHead(200, "ok", { "content-type": "text/css" });
+      fs.createReadStream("./Pages/styles.css", "utf-8").pipe(res);
+    }
+    //! json data
+    else if (req.url === "/json") {
+      // res.write("this is json data");
+      // res.end();
+      res.writeHead(200, "ok", { "content-type": "application/json" });
+      fs.createReadStream("./Pages/data.json", "utf-8").pipe(res);
+    }
+    //! download page
+    else if (req.url === "/download") {
+      res.end("this is download page");
+    }
 
-let op = readFile();
-console.log(op);
-
-console.log("start");
-console.log("middle");
-
-op.then((data) => {
-  console.log(data);
-}).catch((err) => {
-  console.log(err);
-});
-console.log("end");
+    //! about page
+    else if (req.url === "/about") {
+      res.end("about page");
+    } else {
+      res.end("<h1> no page found </h1>");
+    }
+  })
+  .listen(9000, (err) => {
+    if (err) console.log(err);
+    console.log("server running at port 9000");
+  });

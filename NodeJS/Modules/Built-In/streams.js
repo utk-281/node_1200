@@ -55,3 +55,24 @@ let write = fs.createWriteStream("./streams.txt");
 //? pipe() ==> this will connect source and destination
 //syntax ==> source.pipe(destination)
 read.pipe(write);
+
+//! write a function that executes fs.readFileSync async
+// hint ==> use async await
+
+async function readFile() {
+  let data = fs.readFileSync("./index.html", "utf-8");
+  return data;
+}
+
+let op = readFile();
+console.log(op);
+
+console.log("start");
+console.log("middle");
+
+op.then((data) => {
+  console.log(data);
+}).catch((err) => {
+  console.log(err);
+});
+console.log("end");
