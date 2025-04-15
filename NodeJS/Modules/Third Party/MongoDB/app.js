@@ -13,11 +13,11 @@
 //! import the installed modules
 
 const monogdb = require("mongodb");
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 // console.log(monogdb.MongoClient);
 
 // monogdb.MongoClient.connect("mongodb://localhost:27017");
-// let payload = MongoClient.connect("mongodb://localhost:27017");
+// let payload = MongoClient.connect("mongodb://localhost:27017",);
 // console.log(payload);
 
 let connectDB = async () => {
@@ -33,8 +33,26 @@ let connectDB = async () => {
   let collection = await database.createCollection("nodeJsCollection");
   //   console.log(collection.insertOne);
   let data = { name: "abc", id: 123, age: 34 };
-  let op = await collection.insertOne(data);
-  await collection.insertOne({ name: "def", age: 35, id: 234 });
-  console.log("data inserted");
+
+  // inserting data
+  // let op = await collection.insertOne(data);
+  // await collection.insertOne({ name: "def", age: 35, id: 234 });
+  // console.log("data inserted");
+  // collection.insertMany([{ name: "qwerty" }, { name: "12345" }]);
+  // console.log("multiple data inserted");
+
+  //! fetch the data
+  //? fetch single doc
+  // let result = await collection.findOne();
+  let result = await collection.findOne({ id: 234 }, { name: 1, _id: 0 }); //TODO
+  // 67fe041abc9e4df9c609c930 --> fetch one doc based on _id;
+  // let result = await collection.findOne({ _id: new ObjectId("67fe041abc9e4df9c609c930") });
+  console.log(result);
+
+  //! fetch multiple docs
+  // let result = await collection.find().toArray(); //& this toArray() is used to convert the pointer to array
+  // console.log(result);
+
+  // update and delete
 };
 connectDB();
