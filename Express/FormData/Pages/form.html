@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Magnificent Form</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      form {
+        background: white;
+        padding: 40px 50px;
+        border-radius: 20px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        max-width: 400px;
+      }
+
+      form h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+      }
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        transition: border 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: #764ba2;
+        outline: none;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      button:hover {
+        background: linear-gradient(135deg, #5a67d8, #6b46c1);
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/api" method="post">
+      <h2>Sign Up</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="userName" />
+
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="userEmail" />
+
+      <label for="password">Password:</label>
+      <input type="text" id="password" name="userPassword" />
+
+      <button type="submit">Submit</button>
+    </form>
+  </body>
+</html>
