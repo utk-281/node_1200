@@ -53,5 +53,5 @@ app.listen(9000, (err) => {
 //? npm i nodemon --D (this will be installed in devDependencies --> which means it will not be installed in production)
 //? nodemon filename.js
 
-//! .ps1 error
+//& .ps1 error
 // the term nodemon not found ==> npm i nodemon -g
