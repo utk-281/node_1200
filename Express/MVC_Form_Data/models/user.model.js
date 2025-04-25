@@ -10,14 +10,16 @@ let userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      //   required: true, --> without this field, data will not get stored
+      required: true, // --> without this field, data will not get stored
     },
     email: {
       type: String,
-      //   unique: true, --> this ensures no duplicates are allowed
+      required: true,
+      unique: true, // --> this ensures no duplicates are allowed
     },
     password: {
       type: String,
+      required: [true, "Password is required and min length 5"],
     },
     phone: {
       type: Number,

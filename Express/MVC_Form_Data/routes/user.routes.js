@@ -3,13 +3,25 @@
 //! 3) export it.
 
 let { Router } = require("express");
-const { addUser, fetchAllUsers } = require("../controller/user.controller");
+const {
+  addUser,
+  fetchAllUsers,
+  fetchOneUser,
+  updateUser,
+  deleteUser,
+} = require("../controller/user.controller");
 
 let router = Router();
 
 router.post("/add", addUser);
 
 router.get("/all-users", fetchAllUsers);
+
+router.get("/user/:id", fetchOneUser); // /:abc ==> params (parameter)
+
+router.patch("/update-user/:id", updateUser);
+
+router.delete("/delete/:id", deleteUser);
 
 module.exports = router;
 

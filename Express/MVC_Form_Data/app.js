@@ -14,9 +14,12 @@ connectDB();
 
 const app = express();
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // this will parse html form data
+app.use(express.json()); // this will parse json data
 
 app.use("/v1/users", userRoutes);
+//& "/v1/users" ==> api versioning
+//! http://localhost:9000/v1/users/add
 
 app.listen(9000, (err) => {
   if (err) console.log(err);
