@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 let connectDB = async () => {
-  await mongoose.connect("mongodb://localhost:27017/form-Data");
+  await mongoose.connect(process.env.MONGODB);
   console.log("database connected....");
 };
 

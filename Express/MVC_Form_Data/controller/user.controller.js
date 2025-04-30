@@ -16,13 +16,24 @@ let addUser = async (req, res) => {
   res.status(201).json({
     success: true,
     message: "user added successfully",
+    newUser,
   });
 };
 
 let fetchAllUsers = async (req, res) => {
   let users = await userCollection.find();
   // res.send(users);
-  res.status(200).json({ success: true, message: "users fetched successfully", data: users });
+
+  if (users.length === 0) {
+    return res.status(200).json({ message: "no users found" });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "users fetched successfully",
+    count: users.length,
+    data: users,
+  });
 };
 
 let fetchOneUser = async (req, res) => {
@@ -31,8 +42,13 @@ let fetchOneUser = async (req, res) => {
   console.log(extractedID);
 
   let user = await userCollection.findOne({ _id: extractedID });
+  // userCollection.findById();
 
-  res.send(user);
+  if (!user) {
+    return res.status(404).json({ message: "no user found" });
+  }
+
+  res.status(200).json({ success: true, message: "user fetched successfully", user });
 };
 
 let updateUser = async (req, res) => {
@@ -47,11 +63,22 @@ let updateUser = async (req, res) => {
   // user.password = updatedPassword || user.password; // assigning the value
 
   // await user.save(); // saving the value
+  let user = await userCollection.findOne({ _id: id });
+  //TODO ==> 404
+  if (!user) return res.status(200).json({ message: "no user found" });
 
   let result = await userCollection.updateOne({ _id: id }, { $set: req.body });
+  // userCollection.findByIdAndUpdate()
   // console.log(result);
 
-  res.send("user updated successfully");
+  let updatedUser = await userCollection.findOne({ _id: id });
+
+  // res.send("user updated successfully");
+  res.status(200).json({
+    success: true,
+    message: "user updated successfully",
+    updatedUser,
+  });
 };
 
 let deleteUser = async (req, res) => {
@@ -59,12 +86,18 @@ let deleteUser = async (req, res) => {
   // let  id  = req.params.id
 
   let user = await userCollection.findOne({ _id: id });
-  let name = user.name;
+  if (!user) return res.status(404).json({ message: "no user found" });
 
   let result = await userCollection.deleteOne({ _id: id });
-  console.log("user deleted", name);
+  // userCollection.findByIdAndDelete()
+  console.log("user deleted");
 
-  res.send(`user ${name} deleted successfully`);
+  //   res.send(`user ${name} deleted successfully`);
+  res.status(200).json({
+    success: true,
+    message: "user deleted successfully",
+    user,
+  });
 };
 
 module.exports = {
