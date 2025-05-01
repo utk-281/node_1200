@@ -9,6 +9,7 @@ const {
   fetchOneUser,
   updateUser,
   deleteUser,
+  login,
 } = require("../controller/user.controller");
 
 let router = Router();
@@ -22,6 +23,8 @@ router.get("/user/:id", fetchOneUser); // /:abc ==> params (parameter)
 router.patch("/update-user/:id", updateUser);
 
 router.delete("/delete/:id", deleteUser);
+
+router.post("/login", login);
 
 module.exports = router;
 

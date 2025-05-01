@@ -100,12 +100,29 @@ let deleteUser = async (req, res) => {
   });
 };
 
+let login = async (req, res) => {
+  //? destructure email and password
+  let { email, password } = req.body;
+  //? check if user exists
+  let existingUser = await userCollection.findOne({ email });
+  console.log(existingUser);
+  if (!existingUser) return res.status(404).json({ message: "email not found" });
+  //? if exists check password
+  let isMatch = await existingUser.comparePassword(password);
+  // let isMatch  = {name:"abc", password:hashedPassword}.comparePassword("1234")
+  // console.log(isMatch);
+  if (!isMatch) return res.status(400).json({ message: "invalid credentials" });
+
+  res.status(200).json({ success: true, message: "user logged in" });
+};
+
 module.exports = {
   addUser,
   fetchAllUsers,
   fetchOneUser,
   updateUser,
   deleteUser,
+  login,
 };
 
 /*
