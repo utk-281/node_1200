@@ -3,6 +3,7 @@ const blogCollection = require("../models/blogs.model");
 
 //! insert a blog
 const createBlog = async (req, res) => {
+  //! user details
   try {
     let { title, description } = req.body;
     let newBlog = await blogCollection.create({ title, description });

@@ -11,10 +11,12 @@ const {
   updateBlog,
   deleteBlog,
 } = require("../controller/blog.controller");
+const { authenticate } = require("../middlewares/authenticate.middleware");
 
 const router = Router();
 
-router.post("/create", createBlog);
+router.post("/create", authenticate, createBlog); //? injecting the middleware
+//? router level middleware
 
 router.get("/all-blogs", fetchAllBlogs);
 

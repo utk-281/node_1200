@@ -1,5 +1,6 @@
 //& 1) import the collection
 const userCollection = require("../models/user.model");
+const { generateToken } = require("../utils/jwt.utils");
 
 //! define CRUD
 
@@ -113,7 +114,23 @@ let login = async (req, res) => {
   // console.log(isMatch);
   if (!isMatch) return res.status(400).json({ message: "invalid credentials" });
 
-  res.status(200).json({ success: true, message: "user logged in" });
+  let token = await generateToken(existingUser._id);
+  console.log(token);
+
+  res.cookie("my-cookie", token, {
+    maxAge: 1 * 60 * 60 * 1000, // in milliseconds
+  });
+
+  /*   res.cookie("cookie_name", value, {
+    maxAge: 1 * 60 * 60 * 1000, // in milliseconds
+  }); */
+
+  res.status(200).json({ success: true, message: "user logged in", token });
+};
+
+let logout = async (req, res) => {
+  res.clearCookie("my-cookie");
+  res.status(200).json({ success: true, message: "user logged out" });
 };
 
 module.exports = {
@@ -123,28 +140,9 @@ module.exports = {
   updateUser,
   deleteUser,
   login,
+  logout,
 };
 
 /*
 [Object: null prototype] { id: '68089a9c36c22615c911992f' }
 */
-
-// https://www.amazon.in/boAt-BassHeads-100-Headphones-Black/dp/B071Z8M4KX/ref=sr_1_1?_encoding=UTF8&content-id=amzn1.sym.82b20790-8877-4d70-8f73-9d8246e460aa&dib=eyJ2IjoiMSJ9.u-Idkf73CqPLuA1aaV9B-zRL-2PX564RMWSjNwtdcz7Xc9FSFmU-X8kerKGd_uNaS7X4jJbxbYHZr8Zi8WXavnSeku8688AnKx-zP5yz7tq4G_sNQa9-iVNwXWGkc4lV8-9c_hRykO7z8vCPDzKMj0Zxz6OWm0yCw5juQu7kzXeZotSq2tMcVUplR2_oPMGTaPynxp9RVB1L5mLRF9GTA2NNZBBYHI2jdh-D9nwGLNl2OLDZJ4KRfYin_7rUja6qL_1_7usEwKWCzoZqDiI-7eqDqfpFIKbnC-qCNs2kLVc.VMcC7vMT85dNKIaUiiDMJs8OwG46NpKQlbF1FEJPpok&dib_tag=se&pd_rd_r=d805f88c-afbe-493e-a376-75e3cfb572c3&pd_rd_w=HQni1&pd_rd_wg=BJEt7&qid=1745477782&refinements=p_89%3AboAt&s=electronics&sr=1-1&th=1
-
-// https://www.amazon.in/boAt-Rockerz-255-Pro-Earphones/dp/B08TV2P1N8/ref=sr_1_2?_encoding=UTF8&content-id=amzn1.sym.82b20790-8877-4d70-8f73-9d8246e460aa&dib=eyJ2IjoiMSJ9.u-Idkf73CqPLuA1aaV9B-zRL-2PX564RMWSjNwtdcz7Xc9FSFmU-X8kerKGd_uNaS7X4jJbxbYHZr8Zi8WXavnSeku8688AnKx-zP5yz7tq4G_sNQa9-iVNwXWGkc4lV8-9c_hRykO7z8vCPDzKMj0Zxz6OWm0yCw5juQu7kzXeZotSq2tMcVUplR2_oPMGTaPynxp9RVB1L5mLRF9GTA2NNZBBYHI2jdh-D9nwGLNl2OLDZJ4KRfYin_7rUja6qL_1_7usEwKWCzoZqDiI-7eqDqfpFIKbnC-qCNs2kLVc.VMcC7vMT85dNKIaUiiDMJs8OwG46NpKQlbF1FEJPpok&dib_tag=se&pd_rd_r=d805f88c-afbe-493e-a376-75e3cfb572c3&pd_rd_w=HQni1&pd_rd_wg=BJEt7&qid=1745477782&refinements=p_89%3AboAt&s=electronics&sr=1-2
-
-// http://localhost:9000/user/{UNIQUE_ID} ==> _id
-
-//? req.params ==> UNIQUE_ID
-
-// db.users.updateOne(
-//   {
-//     _id: "123",
-//   },
-//   {
-//     $set: { name: "abc", email: "abc", password: "abc", phone: "abc" },
-//   }
-// );
-
-// await userCollection.updateOne({ filter }, { $set: req.body });
-// req.body = { password: };
