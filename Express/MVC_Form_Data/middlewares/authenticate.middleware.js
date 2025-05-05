@@ -11,14 +11,14 @@ const authenticate = async (req, res, next) => {
     return res.status(401).json({ message: "Please log in to access this resource" });
   }
   //& decode the token --> verify()
-  let decodedToken = verify(token, "secret_key");
+  let decodedToken = verify(token, process.env.JWT_SECRET);
   //   console.log(decodedToken);
   let id = decodedToken.payload;
   let user = await userCollection.findById(id);
   if (!user) return res.status(401).json({ message: "Invalid Token" });
 
-  //   //! store the user details in req
-  //   req.myUser = user;
+  //! store the user details in req
+  req.myUser = user;
 
   next();
 };

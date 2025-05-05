@@ -114,7 +114,7 @@ let login = async (req, res) => {
   // console.log(isMatch);
   if (!isMatch) return res.status(400).json({ message: "invalid credentials" });
 
-  let token = await generateToken(existingUser._id);
+  let token = await generateToken(existingUser._id); // user's _id
   console.log(token);
 
   res.cookie("my-cookie", token, {

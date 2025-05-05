@@ -18,9 +18,9 @@ const router = Router();
 router.post("/create", authenticate, createBlog); //? injecting the middleware
 //? router level middleware
 
-router.get("/all-blogs", fetchAllBlogs);
+router.get("/all-blogs", authenticate, fetchAllBlogs);
 
-router.get("/blog/:id", fetchOneBlog); // /:abc ==> params (parameter)
+router.get("/blog/:id", authenticate, fetchOneBlog); // /:abc ==> params (parameter)
 
 router.patch("/update/:id", updateBlog);
 

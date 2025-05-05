@@ -6,7 +6,12 @@ const createBlog = async (req, res) => {
   //! user details
   try {
     let { title, description } = req.body;
-    let newBlog = await blogCollection.create({ title, description });
+    let { _id } = req.myUser;
+    let newBlog = await blogCollection.create({
+      title,
+      description,
+      createdBy: _id,
+    });
     res.status(201).json({
       success: true,
       message: "blog created successfully",
@@ -25,7 +30,7 @@ const createBlog = async (req, res) => {
 //! fetching all blogs
 const fetchAllBlogs = async (req, res) => {
   try {
-    let blogs = await blogCollection.find();
+    let blogs = await blogCollection.find({ createdBy: req.myUser._id });
     res.status(200).json({
       success: true,
       message: "blogs fetched successfully",
@@ -46,7 +51,8 @@ const fetchAllBlogs = async (req, res) => {
 const fetchOneBlog = async (req, res) => {
   try {
     let { id } = req.params;
-    let blog = await blogCollection.findOne({ _id: id });
+    let blog = await blogCollection.findOne({ _id: id, createdBy: req.myUser._id });
+    if (!blog) return res.status(404).json({ message: "no blog found" });
     res.status(200).json({
       success: true,
       message: "blog fetched successfully",

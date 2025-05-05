@@ -15,7 +15,10 @@ let blogSchema = new Schema(
       minlength: 10,
       required: [true, "Description is required and should of minimum 10 characters"],
     },
-    // createdBy: {}, //TODO
+    createdBy: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
