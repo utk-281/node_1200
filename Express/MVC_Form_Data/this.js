@@ -44,3 +44,13 @@ arr3.sort((a, b) => {
 });
 
 console.log(arr3);
+
+function hello() {
+  console.log("hello");
+}
+
+hello();
+
+function asyncHandler(fn) {
+  Promise.resolve(fn).catch(next);
+}

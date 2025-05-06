@@ -17,6 +17,8 @@ const { connectDB } = require("./config/database");
 
 const userRoutes = require("./routes/user.routes");
 const blogRoutes = require("./routes/blog.routes");
+const error = require("./middlewares/error.middleware");
+const { authenticate } = require("./middlewares/authenticate.middleware");
 
 connectDB();
 
@@ -27,9 +29,11 @@ app.use(express.json()); // this will parse json data
 app.use(cookieParser()); // this will parse cookie data and will give some utilities to interact with cookies
 
 app.use("/v1/users", userRoutes);
-app.use("/v1/blogs", blogRoutes);
+app.use("/v1/blogs", authenticate, blogRoutes);
 //& "/v1/users" ==> api versioning
 //! http://localhost:9000/v1/users/add
+
+app.use(error);
 
 app.listen(process.env.PORT, (err) => {
   if (err) console.log(err);

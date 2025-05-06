@@ -5,20 +5,29 @@ const { generateToken } = require("../utils/jwt.utils");
 //! define CRUD
 
 let addUser = async (req, res) => {
-  console.log(req.body);
-  // let { name, email, password, phone } = req.body;
-  //& 1st way ==> create()
-  //   let newUser = await userCollection.create({ name, email, password, phone });
-  //& 2nd way ==> save()
-  let newUser = new userCollection(req.body);
-  await newUser.save();
-  // res.send("user added successfully");
-  //! json response
-  res.status(201).json({
-    success: true,
-    message: "user added successfully",
-    newUser,
-  });
+  try {
+    console.log(req.body);
+    // let { name, email, password, phone } = req.body;
+    //& 1st way ==> create()
+    //   let newUser = await userCollection.create({ name, email, password, phone });
+    //& 2nd way ==> save()
+    let newUser = new userCollection(req.body);
+    await newUser.save();
+    // res.send("user added successfully");
+    //! json response
+    res.status(201).json({
+      success: true,
+      message: "user added successfully",
+      newUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "something went wrong while adding a user",
+      //   errorObject: error,
+      errMessage: error.message,
+    });
+  }
 };
 
 let fetchAllUsers = async (req, res) => {
@@ -102,30 +111,38 @@ let deleteUser = async (req, res) => {
 };
 
 let login = async (req, res) => {
-  //? destructure email and password
-  let { email, password } = req.body;
-  //? check if user exists
-  let existingUser = await userCollection.findOne({ email });
-  console.log(existingUser);
-  if (!existingUser) return res.status(404).json({ message: "email not found" });
-  //? if exists check password
-  let isMatch = await existingUser.comparePassword(password);
-  // let isMatch  = {name:"abc", password:hashedPassword}.comparePassword("1234")
-  // console.log(isMatch);
-  if (!isMatch) return res.status(400).json({ message: "invalid credentials" });
+  try {
+    //? destructure email and password
+    let { email, password } = req.body;
+    //? check if user exists
+    let existingUser = await userCollection.findOne({ email });
+    console.log(existingUser);
+    if (!existingUser) return res.status(404).json({ message: "email not found" });
+    //? if exists check password
+    let isMatch = await existingUser.comparePassword(password);
+    // let isMatch  = {name:"abc", password:hashedPassword}.comparePassword("1234")
+    // console.log(isMatch);
+    if (!isMatch) return res.status(400).json({ message: "invalid credentials" });
 
-  let token = await generateToken(existingUser._id); // user's _id
-  console.log(token);
+    let token = await generateToken(existingUser._id); // user's _id
+    console.log(token);
 
-  res.cookie("my-cookie", token, {
-    maxAge: 1 * 60 * 60 * 1000, // in milliseconds
-  });
+    res.cookie("my-cookie", token, {
+      maxAge: 1 * 60 * 60 * 1000, // in milliseconds
+    });
 
-  /*   res.cookie("cookie_name", value, {
-    maxAge: 1 * 60 * 60 * 1000, // in milliseconds
-  }); */
+    /*   res.cookie("cookie_name", value, {
+      maxAge: 1 * 60 * 60 * 1000, // in milliseconds
+    }); */
 
-  res.status(200).json({ success: true, message: "user logged in", token });
+    res.status(200).json({ success: true, message: "user logged in", token });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "error while logging in",
+      errObject: error,
+    });
+  }
 };
 
 let logout = async (req, res) => {
