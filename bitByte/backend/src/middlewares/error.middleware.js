@@ -1,11 +1,23 @@
 const error = (err, req, res, next) => {
-  //! validation error
+  //! ValidationError
   if (err.name === "ValidationError") {
     err.statusCode = 400;
     err.message = Object.values(err.errors).map((ele) => ele.message);
   }
 
-  console.log(err);
+  //! JsonWebTokenError
+  if (err.name === "JsonWebTokenError") {
+    err.statusCode = 401;
+    err.message = "Please log in again";
+  }
+
+  //! CastError
+  if (err.name === "CastError") {
+    err.statusCode = 400;
+    err.message = "Invalid MongoDB ID";
+  }
+
+  // console.log(err);
   //! global error handler
   err.message = err.message || "Internal Server Error";
   err.statusCode = err.statusCode || 500;
@@ -13,7 +25,7 @@ const error = (err, req, res, next) => {
   res.status(err.statusCode).json({
     success: false,
     message: err.message,
-    // errObj: err,
+    errObj: err,
   });
 };
 

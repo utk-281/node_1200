@@ -1,0 +1,262 @@
+[
+  {
+    "name": "Margherita Pizza",
+    "description": "Classic pizza with fresh mozzarella, tomatoes, and basil.",
+    "price": 12.99,
+    "image": [
+      {
+        "secure_url": "https://example.com/image1.jpg",
+        "asset_id": "asset1",
+        "public_id": "public1"
+      }
+    ],
+    "category": "Italian"
+  },
+  {
+    "name": "Sushi Platter",
+    "description": "Assorted sushi with fresh salmon, tuna, and avocado rolls.",
+    "price": 18.5,
+    "image": [
+      {
+        "secure_url": "https://example.com/image2.jpg",
+        "asset_id": "asset2",
+        "public_id": "public2"
+      }
+    ],
+    "category": "Japanese"
+  },
+  {
+    "name": "Cheeseburger Deluxe",
+    "description": "Grilled beef patty with cheese, lettuce, and tomatoes.",
+    "price": 10.0,
+    "image": [
+      {
+        "secure_url": "https://example.com/image3.jpg",
+        "asset_id": "asset3",
+        "public_id": "public3"
+      }
+    ],
+    "category": "American"
+  },
+  {
+    "name": "Chicken Tikka Masala",
+    "description": "Chicken chunks in creamy spiced tomato sauce served with rice.",
+    "price": 13.75,
+    "image": [
+      {
+        "secure_url": "https://example.com/image4.jpg",
+        "asset_id": "asset4",
+        "public_id": "public4"
+      }
+    ],
+    "category": "Indian"
+  },
+  {
+    "name": "Pad Thai",
+    "description": "Rice noodles stir-fried with shrimp, tofu, egg, and peanuts.",
+    "price": 11.25,
+    "image": [
+      {
+        "secure_url": "https://example.com/image5.jpg",
+        "asset_id": "asset5",
+        "public_id": "public5"
+      }
+    ],
+    "category": "Thai"
+  },
+  {
+    "name": "Caesar Salad",
+    "description": "Romaine lettuce, croutons, and parmesan with Caesar dressing.",
+    "price": 8.0,
+    "image": [
+      {
+        "secure_url": "https://example.com/image6.jpg",
+        "asset_id": "asset6",
+        "public_id": "public6"
+      }
+    ],
+    "category": "Salad"
+  },
+  {
+    "name": "Beef Tacos",
+    "description": "Soft tortillas filled with seasoned beef, cheese, and salsa.",
+    "price": 9.5,
+    "image": [
+      {
+        "secure_url": "https://example.com/image7.jpg",
+        "asset_id": "asset7",
+        "public_id": "public7"
+      }
+    ],
+    "category": "Mexican"
+  },
+  {
+    "name": "Falafel Wrap",
+    "description": "Falafel balls with tahini sauce wrapped in pita bread.",
+    "price": 7.99,
+    "image": [
+      {
+        "secure_url": "https://example.com/image8.jpg",
+        "asset_id": "asset8",
+        "public_id": "public8"
+      }
+    ],
+    "category": "Middle Eastern"
+  },
+  {
+    "name": "Veggie Burger",
+    "description": "Plant-based patty with lettuce, tomato, and vegan mayo.",
+    "price": 10.5,
+    "image": [
+      {
+        "secure_url": "https://example.com/image9.jpg",
+        "asset_id": "asset9",
+        "public_id": "public9"
+      }
+    ],
+    "category": "Vegan"
+  },
+  {
+    "name": "Spaghetti Carbonara",
+    "description": "Spaghetti with pancetta, egg, parmesan, and black pepper.",
+    "price": 13.0,
+    "image": [
+      {
+        "secure_url": "https://example.com/image10.jpg",
+        "asset_id": "asset10",
+        "public_id": "public10"
+      }
+    ],
+    "category": "Italian"
+  },
+  {
+    "name": "Grilled Salmon",
+    "description": "Fresh salmon fillet grilled and served with vegetables.",
+    "price": 16.5,
+    "image": [
+      {
+        "secure_url": "https://example.com/image11.jpg",
+        "asset_id": "asset11",
+        "public_id": "public11"
+      }
+    ],
+    "category": "Seafood"
+  },
+  {
+    "name": "Tofu Stir-Fry",
+    "description": "Stir-fried tofu with vegetables and soy-ginger sauce.",
+    "price": 9.75,
+    "image": [
+      {
+        "secure_url": "https://example.com/image12.jpg",
+        "asset_id": "asset12",
+        "public_id": "public12"
+      }
+    ],
+    "category": "Vegan"
+  },
+  {
+    "name": "Lamb Gyro",
+    "description": "Sliced lamb, onions, and tzatziki sauce in pita bread.",
+    "price": 10.99,
+    "image": [
+      {
+        "secure_url": "https://example.com/image13.jpg",
+        "asset_id": "asset13",
+        "public_id": "public13"
+      }
+    ],
+    "category": "Greek"
+  },
+  {
+    "name": "Avocado Toast",
+    "description": "Toasted sourdough topped with mashed avocado and chili flakes.",
+    "price": 6.5,
+    "image": [
+      {
+        "secure_url": "https://example.com/image14.jpg",
+        "asset_id": "asset14",
+        "public_id": "public14"
+      }
+    ],
+    "category": "Breakfast"
+  },
+  {
+    "name": "Egg Fried Rice",
+    "description": "Rice stir-fried with eggs, vegetables, and soy sauce.",
+    "price": 8.25,
+    "image": [
+      {
+        "secure_url": "https://example.com/image15.jpg",
+        "asset_id": "asset15",
+        "public_id": "public15"
+      }
+    ],
+    "category": "Chinese"
+  },
+  {
+    "name": "Pancake Stack",
+    "description": "Fluffy pancakes served with maple syrup and butter.",
+    "price": 7.75,
+    "image": [
+      {
+        "secure_url": "https://example.com/image16.jpg",
+        "asset_id": "asset16",
+        "public_id": "public16"
+      }
+    ],
+    "category": "Breakfast"
+  },
+  {
+    "name": "BBQ Ribs",
+    "description": "Slow-cooked pork ribs glazed with smoky barbecue sauce.",
+    "price": 17.99,
+    "image": [
+      {
+        "secure_url": "https://example.com/image17.jpg",
+        "asset_id": "asset17",
+        "public_id": "public17"
+      }
+    ],
+    "category": "American"
+  },
+  {
+    "name": "Quinoa Salad",
+    "description": "Healthy salad with quinoa, veggies, and lemon dressing.",
+    "price": 9.0,
+    "image": [
+      {
+        "secure_url": "https://example.com/image18.jpg",
+        "asset_id": "asset18",
+        "public_id": "public18"
+      }
+    ],
+    "category": "Healthy"
+  },
+  {
+    "name": "Pepperoni Pizza",
+    "description": "Pizza topped with mozzarella cheese and spicy pepperoni.",
+    "price": 14.25,
+    "image": [
+      {
+        "secure_url": "https://example.com/image19.jpg",
+        "asset_id": "asset19",
+        "public_id": "public19"
+      }
+    ],
+    "category": "Italian"
+  },
+  {
+    "name": "Chili Con Carne",
+    "description": "Spicy stew with ground beef, beans, and tomatoes.",
+    "price": 12.4,
+    "image": [
+      {
+        "secure_url": "https://example.com/image20.jpg",
+        "asset_id": "asset20",
+        "public_id": "public20"
+      }
+    ],
+    "category": "Tex-Mex"
+  }
+]

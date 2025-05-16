@@ -10,6 +10,10 @@ const registerUser = asyncHandler(async (req, res) => {
   if (existingUser) throw new ErrorHandler("email already exists", 400);
 
   let newUser = await userCollection.create({ name, email, password, phoneNumber });
+
+  // let newUser = new userCollection({ name, email, password, phoneNumber });
+  // await newUser.save();
+
   res.status(201).json({
     success: true,
     message: "user registered successfully",
@@ -61,41 +65,6 @@ const logoutUser = asyncHandler(async (req, res) => {
   });
 });
 
-const updateUserProfile = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { _id } = req.myUser;
-  const { name, email, phoneNumber } = req.body;
-
-  const updatedUser = await userCollection.findByIdAndUpdate(
-    { _id },
-    { $set: { name, email, phoneNumber } },
-    { new: true } // it returns the updated document
-  );
-
-  //TODO==>
-  // const updateUserPut = await userCollection.updateOne(
-  //   { _id: _id },
-  //   {
-  //     $set: {
-  //       name: req.body.name,
-  //       email: req.body.email,
-  //       phoneNumber: req.body.phoneNumber,
-  //     },
-  //   },
-  //   {
-  //     overwrite: true,
-  //   }
-  // );
-
-  res.status(200).json({
-    success: true,
-    message: "user updated successfully",
-    data: updatedUser,
-  });
-}); // we can update name, email and phoneNumber
-
-const updateUserPassword = asyncHandler(async (req, res) => {}); //TODO
-
 const deleteUserProfile = asyncHandler(async (req, res) => {
   const { _id } = req.myUser; // this we will get from authenticate middleware
   let deletedUser = await userCollection.findByIdAndDelete({ _id }); // findOne and deleteOne
@@ -107,6 +76,59 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
     data: deletedUser,
   });
 }); // delete the profile
+
+//& we can update name, email and phoneNumber
+const updateUserProfile = asyncHandler(async (req, res) => {
+  // console.log(req.body);
+  const { _id } = req.myUser; // logged in user
+  const { name, email, phoneNumber } = req.body;
+
+  const updatedUser = await userCollection.findByIdAndUpdate(
+    { _id }, // filter
+    {
+      $set: { name, email, phoneNumber }, // updation
+    },
+    { new: true } // it returns the updated document --> options
+  );
+
+  // TODO==>
+  // const updateUserPut = await userCollection.replaceOne(
+  //   { _id: _id },
+  //   {
+  //     name: req.body.name,
+  //     email: req.body.email,
+  //     phoneNumber: req.body.phoneNumber,
+  //   },
+  //   {
+  //     overwrite: true,
+  //   }
+  // );
+  res.status(200).json({
+    success: true,
+    message: "user updated successfully",
+    data: updatedUser,
+  });
+});
+
+const updateUserPassword = asyncHandler(async (req, res) => {
+  let { newPassword } = req.body;
+  //! middleware ==> req.myUser
+
+  /*
+  req.myUser.password = newPassword
+  await req.myUser.save()
+  */
+
+  let user = await userCollection.findById(req.myUser._id); // authenticate middleware
+  console.log(user);
+  user.password = newPassword; // assigning the value
+  await user.save(); //& save the data in the db and save() will call the pre-hooks
+
+  res.status(200).json({
+    success: true,
+    message: "password updated successfully",
+  });
+});
 
 const getLoggedInUserProfile = asyncHandler(async (req, res) => {
   res.status(200).json({
@@ -122,4 +144,5 @@ module.exports = {
   deleteUserProfile,
   getLoggedInUserProfile,
   updateUserProfile,
+  updateUserPassword,
 };
