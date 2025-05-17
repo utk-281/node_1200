@@ -35,7 +35,7 @@ const userSchema = new mongoose.Schema(
       default: "user",
     },
   },
-  { timestamps: true }
+  { timestamps: true, minimize: false }
 );
 
 //! password hashing --> pre hook

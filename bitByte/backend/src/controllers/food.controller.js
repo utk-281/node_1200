@@ -58,19 +58,19 @@ exports.updateFoodDetails = asyncHandler(async (req, res) => {
 exports.updateFoodImage = asyncHandler(async (req, res) => {
   let { id } = req.params;
   let food = await foodCollection.findById(id);
-  let public_id = food.image[0].public_id;
-  let deleteImage = await deleteImageFromCloudinary(public_id);
-
-  let localFilePath = req.file.path;
+  let public_id = food?.image[0]?.public_id;
+  if (public_id !== undefined || public_id !== null) {
+    let deletedImage = await deleteImageFromCloudinary(public_id);
+  }
+  let localFilePath = req?.file?.path;
   let uploadedResponse = await uploadImageOnCloudinary(localFilePath);
   food.image = [
     {
-      secure_url: uploadedResponse?.secure_url,
-      asset_id: uploadedResponse?.asset_id,
-      public_id: uploadedResponse?.public_id,
+      secure_url: uploadedResponse.secure_url,
+      asset_id: uploadedResponse.asset_id,
+      public_id: uploadedResponse.public_id,
     },
   ];
-
   await food.save();
   res.json({
     success: true,

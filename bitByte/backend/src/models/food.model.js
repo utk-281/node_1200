@@ -26,6 +26,7 @@ const foodSchema = new monogoose.Schema(
         public_id: {
           type: String,
         },
+        _id: false,
       },
     ],
     category: {

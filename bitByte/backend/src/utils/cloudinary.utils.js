@@ -7,7 +7,9 @@ const uploadImageOnCloudinary = asyncHandler(async (path) => {
   let uploadedResponse = await v2.uploader.upload(path, {
     folder: "bitByte",
   });
-  fs.unlinkSync(path);
+  console.log(path);
+  let deleted = fs.unlinkSync(path);
+  console.log(deleted);
   return uploadedResponse;
 });
 
