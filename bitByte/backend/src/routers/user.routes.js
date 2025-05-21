@@ -8,9 +8,10 @@ const {
   updateUserProfile,
   updateUserPassword,
 } = require("../controllers/user.controller");
+
 const { authenticate } = require("../middlewares/authenticate.middleware");
 const { upload } = require("../middlewares/multer.middleware");
-const { addFood } = require("../controllers/food.controller");
+
 // const userController = require("../controllers/user.controller");
 
 const router = Router();

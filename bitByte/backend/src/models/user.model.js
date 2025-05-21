@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema(
 
 //! password hashing --> pre hook
 userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   let salt = await bcryptjs.genSalt(12); // random string
   let hashedPassword = await bcryptjs.hash(this.password, salt);
   this.password = hashedPassword;

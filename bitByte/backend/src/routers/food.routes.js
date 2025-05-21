@@ -6,6 +6,7 @@ const {
   deleteFood,
   updateFoodImage,
 } = require("../controllers/food.controller");
+
 const { upload } = require("../middlewares/multer.middleware");
 const router = Router();
 

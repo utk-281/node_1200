@@ -8,7 +8,7 @@ exports.addFood = async (req, res) => {
 
   const { name, description, price, category } = req.body;
   const localFilePath = req?.file?.path;
-  // console.log(req.file);
+  console.log(req.file);
 
   let uploadedResponse = await uploadImageOnCloudinary(localFilePath);
   console.log(uploadedResponse);
@@ -117,3 +117,28 @@ exports.getSingleFood = asyncHandler(async (req, res) => {
 
 // let str =
 //   "https://res.cloudinary.com/dmqwvd39n/image/upload/v1747379125/bitByte/ulw7h38a5qch3rrpkmvg.jpg";
+
+/*
+[
+  {
+    fieldname: 'image',
+    originalname: 'maggie.jpeg',
+    encoding: '7bit',
+    mimetype: 'image/jpeg',
+    destination: 'path',
+    filename: '1747637952497----maggie.jpeg',
+    path: 'path\\1747637952497----maggie.jpeg',
+    size: 13522
+  },
+  {
+    fieldname: 'image',
+    originalname: 'download.jpeg',
+    encoding: '7bit',
+    mimetype: 'image/jpeg',
+    destination: 'path',
+    filename: '1747637952498----download.jpeg',
+    path: 'path\\1747637952498----download.jpeg',
+    size: 10636
+  }
+]
+*/

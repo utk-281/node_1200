@@ -17,6 +17,12 @@ const error = (err, req, res, next) => {
     err.message = "Invalid MongoDB ID";
   }
 
+  //! MulterError
+  if (err.name === "MulterError") {
+    err.name = 400;
+    err.message = err.code;
+  }
+
   // console.log(err);
   //! global error handler
   err.message = err.message || "Internal Server Error";
@@ -25,7 +31,7 @@ const error = (err, req, res, next) => {
   res.status(err.statusCode).json({
     success: false,
     message: err.message,
-    errObj: err,
+    // errObj: err,
   });
 };
 
