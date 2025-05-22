@@ -66,19 +66,3 @@ module.exports = {
   removeFoodFromCart,
   getCartItems,
 };
-
-// req.myUser ==> logged in user
-// cartDetails of the logged in user
-
-/*
-{
-123:
-}
-*/
-let emp = "abc";
-
-let obj = {
-  1: emp,
-};
-
-console.log(obj[1]);

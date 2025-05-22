@@ -38,6 +38,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true, minimize: false }
 );
 
+// cartData  = {123:1,234:7 }
 //! password hashing --> pre hook
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

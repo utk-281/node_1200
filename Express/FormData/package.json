@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "express": "^5.1.0",
+    "formdata": "file:",
     "mongodb": "^6.15.0"
   }
 }
