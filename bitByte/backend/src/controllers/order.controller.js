@@ -2,6 +2,9 @@ const orderCollection = require("../models/order.model");
 const userCollection = require("../models/user.model");
 const foodCollection = require("../models/food.model");
 const asyncHandler = require("express-async-handler");
+const { Stripe } = require("stripe");
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const placeOrder = asyncHandler(async (req, res) => {
   //! current logged in user
@@ -20,6 +23,7 @@ const placeOrder = asyncHandler(async (req, res) => {
   let foodItems = await foodCollection.find({ _id: { $in: foodIds } });
   //   console.log(foodItems);
   console.log(cartData);
+  console.log(foodItems);
 
   let items = [];
   let total = 0;
@@ -40,15 +44,47 @@ const placeOrder = asyncHandler(async (req, res) => {
     });
     // console.log(items);
   }
-  console.log(items);
+  const newOrder = await orderCollection.create({
+    userId: currentUser._id,
+    items: items,
+    amount: total,
+    address: address,
+  });
+
+  const line_items = items.map((item) => {
+    return {
+      price_data: {
+        currency: "inr",
+        product_data: {
+          name: item.food,
+        },
+        unit_amount: item.price * 100,
+      },
+      quantity: item.quantity,
+    };
+  });
+
+  console.log(line_items);
+
+  const session = await stripe.checkout.sessions.create({
+    line_items,
+    payment_method_types: ["card"],
+    mode: "payment",
+    success_url: `http://localhost:9000/oreders/v1/verify-order?orderId=${newOrder._id}&success=true`,
+    cancel_url: `http://localhost:9000/oreders/v1/verify-order?orderId=${newOrder._id}&success=false`,
+  });
+
+  console.log(session);
+
+  res.status(200).json({
+    success: true,
+    message: "order placed successfully",
+    sessionId: session.id,
+    url: session.url,
+  });
 });
 
 module.exports = {
   placeOrder,
 };
 
-let emp = {
-  name: "abc",
-  2345678987654: "def",
-};
-emp[3456789765];
