@@ -3,6 +3,7 @@ const userCollection = require("../models/user.model");
 const foodCollection = require("../models/food.model");
 const asyncHandler = require("express-async-handler");
 const { Stripe } = require("stripe");
+const ErrorHandler = require("../utils/ErrorHandler");
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -31,8 +32,8 @@ const placeOrder = asyncHandler(async (req, res) => {
   for (let foodItem of foodItems) {
     // console.log(foodItem);
     let quantity = cartData[foodItem._id];
-    let price = foodItem.price;
-    let itemPrice = quantity * price;
+    let price = parseInt(foodItem.price);
+    let itemPrice = parseInt(price * quantity);
 
     total += itemPrice;
 
@@ -47,7 +48,7 @@ const placeOrder = asyncHandler(async (req, res) => {
   const newOrder = await orderCollection.create({
     userId: currentUser._id,
     items: items,
-    amount: total,
+    amount: parseInt(total),
     address: address,
   });
 
@@ -70,11 +71,15 @@ const placeOrder = asyncHandler(async (req, res) => {
     line_items,
     payment_method_types: ["card"],
     mode: "payment",
-    success_url: `http://localhost:9000/oreders/v1/verify-order?orderId=${newOrder._id}&success=true`,
-    cancel_url: `http://localhost:9000/oreders/v1/verify-order?orderId=${newOrder._id}&success=false`,
+    success_url: `http://localhost:9000/orders/v1/verify-order?orderId=${newOrder._id}&success=true`,
+    cancel_url: `http://localhost:9000/orders/v1/verify-order?orderId=${newOrder._id}&success=false`,
   });
 
   console.log(session);
+
+  //! clear the cart
+
+  await userCollection.findByIdAndUpdate(currentUser._id, { cartData: {} });
 
   res.status(200).json({
     success: true,
@@ -84,7 +89,61 @@ const placeOrder = asyncHandler(async (req, res) => {
   });
 });
 
+const verifyOrder = asyncHandler(async (req, res) => {
+  // console.log(req.query);
+  let orderId = req.query.orderId;
+  let flag = req.query.success;
+  // console.log(typeof flag);
+
+  let order = await orderCollection.findById(orderId);
+  // console.log(order);
+
+  if (flag == "true") {
+    console.log("inside if");
+    order.payment = true;
+    order.status = "processing";
+    await order.save();
+    return res.status(200).json({
+      success: true,
+      message: "order placed successfully",
+    });
+  } else {
+    console.log("inside else ");
+    order.payment = false;
+    order.status = "canceled";
+    await order.save();
+    return res.status(402).json({
+      success: true,
+      message: "payment failed",
+    });
+  }
+});
+
+const getOrders = asyncHandler(async (req, res) => {
+  let currentUserId = req.myUser._id;
+  let orders = await orderCollection.find({ userId: currentUserId });
+  if (orders.length === 0) throw new ErrorHandler("no orders found", 404);
+  res.status(200).json({
+    success: true,
+    message: "orders fetched successfully",
+    count: orders.length,
+    data: orders,
+  });
+});
+
+//! functionalities for admin
+//? update the order status
+//? get all the orders
+
 module.exports = {
   placeOrder,
+  verifyOrder,
+  getOrders,
 };
 
+/*
+req.query =  {
+  orderId: '68317007987053e662fbc088',
+  success: 'true'
+}
+*/

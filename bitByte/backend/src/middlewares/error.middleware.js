@@ -32,6 +32,7 @@ const error = (err, req, res, next) => {
     success: false,
     message: err.message,
     // errObj: err,
+    line: err.stack,
   });
 };
 
